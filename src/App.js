@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar"; 
+import AuthPage from "./pages/AuthPage"; 
+import SongsPage from "./pages/SongsPage"; 
+import CreateSongPage from "./pages/CreateSongPage"; 
+import EditSongPage from "./pages/EditSongPage";
+import AddCommentsPage from "./pages/AddCommentsPage"; 
+import ProfilePage from './pages/ProfilePage';
+import AddSuggestionPage from './pages/AddSuggestionPage';
+import MySongsPage from './pages/MySongsPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<h1>Welcome to Home Page</h1>} /> 
+        <Route path="/auth" element={<AuthPage />} /> {/* Login and Sign-Up */}
+        <Route path="/songs" element={<SongsPage />} /> {/* Songs Page */}
+        <Route path="/my-songs" element={<MySongsPage />} /> {/* My Songs Page */}
+        <Route path="/create-song" element={<CreateSongPage />} /> {/* Create Song Page */}
+        <Route path="/edit-song/:id" element={<EditSongPage />} /> {/* Edit Song Page */}
+        <Route path="/comments/add/:songId" element={<AddCommentsPage />} /> {/* Add Comment Page */}
+        <Route path="/suggestions/add/:songId" element={<AddSuggestionPage />} />
+        <Route path="/profile" element={<ProfilePage />} /> {/* Profile Page */}
+      </Routes>
+    </Router>
   );
 }
 
