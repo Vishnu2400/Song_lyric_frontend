@@ -29,16 +29,21 @@ const ProfilePage = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h1>Profile Page</h1>
-      <h3>Current User Details</h3>
-      {user && (
-        <>
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Roles:</strong> {user.roles.join(', ')}</p>
-        </>
-      )}
+    <div className="profile-page">
+      <div className="profile-container">
+        <h1>Profile</h1>
+        <div className="profile-details">
+          {user && (
+            <>
+              <div className="profile-info">
+                <p><strong>Username:</strong> {user.username}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>Roles:</strong> {user.roles.join(', ')}</p>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

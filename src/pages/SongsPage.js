@@ -22,14 +22,11 @@ const SongsPage = () => {
   const handleLike = async (id) => {
     try {
       await songService.addLike(id);
-
-      // Update the like count immediately in the state (for both songs and mySongs)
       setSongs((prevSongs) =>
         prevSongs.map((song) =>
           song.id === id ? { ...song, likesCount: song.likesCount + 1 } : song
         )
       );
-
       alert('Song liked successfully!');
     } catch (err) {
       console.error('Failed to like the song:', err);
@@ -37,21 +34,18 @@ const SongsPage = () => {
   };
 
   const handleAddSuggestionClick = (songId) => {
-    navigate(`/suggestions/add/${songId}`); // Redirect to the suggestion form for this song
+    navigate(`/suggestions/add/${songId}`);
   };
 
-
   return (
-    <div>
+    <div className="songs-page">
       <h1>All Songs</h1>
       <ul>
         {songs.map((song) => (
           <li key={song.id}>
             <strong>{song.title}</strong> by {song.authorUsername}
             <p>{song.lyrics}</p>
-            <button onClick={() => handleLike(song.id)}>
-              {song.likesCount} Likes
-            </button>
+            <button onClick={() => handleLike(song.id)}>{song.likesCount} Likes</button>
             <button onClick={() => navigate(`/comments/add/${song.id}`)}>Add Comment</button>
             <button onClick={() => handleAddSuggestionClick(song.id)}>Add Suggestion</button>
 
@@ -83,7 +77,6 @@ const SongsPage = () => {
           </li>
         ))}
       </ul>
-
     </div>
   );
 };

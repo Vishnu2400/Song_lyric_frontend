@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an Axios instance
 const api = axios.create({
-  baseURL: 'http://localhost:8080', // Set your API base URL here
+  baseURL: 'https://songlyric-hqdsdubedmeahyfn.eastus-01.azurewebsites.net', // Set your API base URL here
   timeout: 10000, // Set a timeout for requests
 });
 

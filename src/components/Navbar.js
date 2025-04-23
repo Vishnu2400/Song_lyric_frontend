@@ -3,15 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const isLoggedIn = Boolean(localStorage.getItem("token")); // Check if user is logged in
 
   const handleLogout = () => {
-    // Remove token from localStorage
     localStorage.removeItem("token");
-
-    // Dispatch a storage event to notify other components
     window.dispatchEvent(new Event("storage"));
-
-    // Redirect to login page
     navigate("/auth");
   };
 
@@ -19,12 +15,12 @@ const Navbar = () => {
     <nav>
       <ul>
         <li><Link to="/">Home</Link></li>
-        {!localStorage.getItem("token") && <li><Link to="/auth">Login</Link></li>}
-        {localStorage.getItem("token") && <li><Link to="/songs">Songs</Link></li>}
-        {localStorage.getItem("token") && <li><Link to="/create-song">Create Song</Link></li>}
-        {localStorage.getItem("token") && <li><Link to="/my-songs">My Songs</Link></li>}
-        {localStorage.getItem("token") && <li><Link to="/profile">Profile</Link></li>}
-        {localStorage.getItem("token") && (
+        {!isLoggedIn && <li><Link to="/auth">Login</Link></li>}
+        {isLoggedIn && <li><Link to="/songs">Songs</Link></li>}
+        {isLoggedIn && <li><Link to="/create-song">Create Song</Link></li>}
+        {isLoggedIn && <li><Link to="/my-songs">My Songs</Link></li>}
+        {isLoggedIn && <li><Link to="/profile">Profile</Link></li>}
+        {isLoggedIn && (
           <li>
             <button onClick={handleLogout} style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}>
               Logout

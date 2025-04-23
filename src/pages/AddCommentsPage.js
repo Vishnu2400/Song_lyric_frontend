@@ -24,7 +24,7 @@ const AddCommentPage = () => {
   };
 
   return (
-    <div>
+    <div className="add-comment-page">
       <h1>Add Comment</h1>
       <form onSubmit={handleAddComment}>
         <textarea

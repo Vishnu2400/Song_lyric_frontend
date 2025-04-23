@@ -19,16 +19,14 @@ const AuthPage = () => {
 
     try {
       if (isLoginMode) {
-        // Login API call
         const response = await authService.login(formData.username, formData.password);
         localStorage.setItem('token', response.token);
         window.dispatchEvent(new Event('storage'));
         navigate('/songs');
       } else {
-        // Registration API call
         await authService.register(formData.username, formData.email, formData.password, formData.role);
         alert('Registration successful! Please log in.');
-        setIsLoginMode(true); // Switch to login mode
+        setIsLoginMode(true);
       }
     } catch (err) {
       setError(err.message || 'Something went wrong');
@@ -36,26 +34,55 @@ const AuthPage = () => {
   };
 
   return (
-    <div>
+    <div className="auth-page">
       <h1>{isLoginMode ? 'Login' : 'Register'}</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username" value={formData.username} onChange={handleChange} required />
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={formData.username}
+          onChange={handleChange}
+          required
+        />
         {!isLoginMode && (
-          <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         )}
-        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
         {!isLoginMode && (
-          <select name="role" value={formData.role} onChange={handleChange}>
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            required
+          >
             <option value="SONG_WRITER">Song Writer</option>
             <option value="CONTRIBUTOR">Contributor</option>
           </select>
         )}
         <button type="submit">{isLoginMode ? 'Login' : 'Register'}</button>
       </form>
-      <button onClick={() => setIsLoginMode(!isLoginMode)}>
-        {isLoginMode ? 'Switch to Register' : 'Switch to Login'}
-      </button>
+      <p>
+        {isLoginMode ? 'Don\'t have an account? ' : 'Already have an account? '}
+        <span onClick={() => setIsLoginMode(!isLoginMode)} style={{ cursor: 'pointer', color: 'blue' }}>
+          {isLoginMode ? 'Register' : 'Login'}
+        </span>
+      </p>
     </div>
   );
 };

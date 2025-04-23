@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import suggestionService from '../services/suggestionService';
+import suggestionService from '../services/suggestionService'; // Ensure the suggestion service is imported
 
 const AddSuggestionPage = () => {
-  const { songId } = useParams();
+  const { songId } = useParams(); // Get the songId from the URL
   const navigate = useNavigate();
-  const [suggestionText, setSuggestionText] = useState('');
+  const [suggestionText, setSuggestionText] = useState(''); // State for suggestion text
 
   const handleAddSuggestion = async (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ const AddSuggestionPage = () => {
   };
 
   return (
-    <div>
+    <div className="add-suggestion-page">
       <h1>Add Suggestion</h1>
       <form onSubmit={handleAddSuggestion}>
         <textarea

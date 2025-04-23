@@ -4,18 +4,20 @@ import songService from '../services/songService';
 
 const CreateSongPage = () => {
   const [newSong, setNewSong] = useState({ title: '', lyrics: '' });
+  const [suggestedTitles, setSuggestedTitles] = useState(''); // Change to a string
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
 
   const handleCreate = async (e) => {
-    e.preventDefault(); // Prevent the form from refreshing the page
+    e.preventDefault();
+    if (!newSong.title.trim() || !newSong.lyrics.trim()) {
+      alert('Both title and lyrics are required to create a song.');
+      return;
+    }
     try {
-      // Call the API to create a new song
       await songService.createSong(newSong);
-
-      // Reset the form inputs
       setNewSong({ title: '', lyrics: '' });
-
-      // Redirect to the SongsPage
       navigate('/songs');
       alert('Song created successfully!');
     } catch (err) {
@@ -24,34 +26,68 @@ const CreateSongPage = () => {
     }
   };
 
+  const handleSuggestTitle = async () => {
+    if (!newSong.lyrics) {
+      alert('Please enter lyrics first to get title suggestions.');
+      return;
+    }
+    setIsLoading(true); // Set loading to true
+    try {
+      const suggestions = await songService.suggestTitle(newSong.lyrics);
+      console.log('Suggestions received:', suggestions);
+      setSuggestedTitles(suggestions || 'No suggestions available.');
+      setError(null);
+    } catch (err) {
+      console.error('Failed to get title suggestions:', err);
+      setSuggestedTitles('');
+      setError('Failed to fetch title suggestions. Please try again.');
+    } finally {
+      setIsLoading(false); // Set loading to false
+    }
+  };
+
   return (
-    <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
+    <div className="create-song-page">
       <h1>Create a New Song</h1>
       <form onSubmit={handleCreate}>
         <div>
-          <label>Title:</label>
+          <label htmlFor="title">Title:</label>
           <input
+            id="title"
             type="text"
             placeholder="Enter song title"
             value={newSong.title}
             onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
             required
-            style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
           />
         </div>
         <div>
-          <label>Lyrics:</label>
+          <label htmlFor="lyrics">Lyrics:</label>
           <textarea
+            id="lyrics"
             placeholder="Enter song lyrics"
             value={newSong.lyrics}
             onChange={(e) => setNewSong({ ...newSong, lyrics: e.target.value })}
             required
-            style={{ width: '100%', padding: '8px', height: '100px', marginBottom: '10px' }}
           ></textarea>
         </div>
-        <button type="submit" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          Create Song
-        </button>
+        <div>
+          <button 
+            type="button" 
+            onClick={handleSuggestTitle} 
+            disabled={isLoading || !newSong.lyrics.trim()}
+          >
+            {isLoading ? 'Loading...' : 'Suggest Titles'}
+          </button>
+        </div>
+        {suggestedTitles && (
+          <div>
+            <h3>Suggested Titles</h3>
+            <p>{suggestedTitles}</p> {/* Display the raw suggestions */}
+          </div>
+        )}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit">Create Song</button>
       </form>
     </div>
   );

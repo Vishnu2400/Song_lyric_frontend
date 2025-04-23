@@ -9,7 +9,7 @@ const MySongsPage = () => {
   useEffect(() => {
     const fetchUserSongs = async () => {
       try {
-        const userSongs = await songService.getMySongs(); // Fetch only the user's songs
+        const userSongs = await songService.getMySongs();
         setMySongs(userSongs);
       } catch (err) {
         console.error('Failed to fetch user songs:', err);
@@ -20,16 +20,13 @@ const MySongsPage = () => {
   }, []);
 
   const handleEditClick = (songId) => {
-    navigate(`/edit-song/${songId}`); // Redirect to the EditSongPage with the song ID
+    navigate(`/edit-song/${songId}`);
   };
 
   const handleDelete = async (id) => {
     try {
       await songService.deleteSong(id);
-
-      // Update the state to remove the deleted song
       setMySongs((prevMySongs) => prevMySongs.filter((song) => song.id !== id));
-
       alert('Song deleted successfully!');
     } catch (err) {
       console.error('Failed to delete the song:', err);
@@ -37,7 +34,7 @@ const MySongsPage = () => {
   };
 
   return (
-    <div>
+    <div className="my-songs-page">
       <h1>My Songs</h1>
       <ul>
         {mySongs.map((song) => (
