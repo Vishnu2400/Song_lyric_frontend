@@ -10,16 +10,16 @@ This is the frontend application for the Song Lyric project. The app is built us
 
 ## Deployment
 
-The application will be deployed to Azure App Service. The deployment URL will be available here:
+The application will be deployed to Azure App Service. The deployment URL :
 
-`<Deployment URL will be added here>`
+`https://lemon-forest-0cb29150f.6.azurestaticapps.net`
 
 ## Backend
 
 The backend for this application is built using Spring Boot and is hosted on Azure. You can find the backend repository and its API URL here:
 
-- **Backend Repository**: `<Backend GitHub Repository URL>`
-- **Backend API Base URL**: `<Backend API URL>`
+- **Backend Repository**: `https://github.com/Vishnu2400/ITMD544_SongLyric`
+- **Backend API Base URL**: `https://songlyric-hqdsdubedmeahyfn.eastus-01.azurewebsites.net`
 
 ## Installation and Setup
 
